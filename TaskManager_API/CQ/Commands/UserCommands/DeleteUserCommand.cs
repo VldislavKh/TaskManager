@@ -4,11 +4,11 @@ using TaskManager_API.Interfaces;
 
 namespace TaskManager_API.CQ.Commands.UserCommands
 {
-    public class DeleteUserCommand : IRequest<Unit>
+    public class DeleteUserCommand : IRequest
     {
         public Guid UserId { get; set;}
 
-        public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Unit>
+        public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
         {
             private readonly IUserService _userService;
 
@@ -17,10 +17,9 @@ namespace TaskManager_API.CQ.Commands.UserCommands
                 _userService = userService;
             }
 
-            public async Task<Unit> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
+            public async Task Handle(DeleteUserCommand command, CancellationToken cancellationToken)
             {
                 await _userService.DeleteAsync(command.UserId);
-                return Unit.Value;
             }
         }
     }

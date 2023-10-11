@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class Migration1 : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,9 +28,9 @@ namespace Domain.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Login = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Login = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
                     IdРоли = table.Column<Guid>(name: "Id Роли", type: "uuid", nullable: false)
                 },
                 constraints: table =>

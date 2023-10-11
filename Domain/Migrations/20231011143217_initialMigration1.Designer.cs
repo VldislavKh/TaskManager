@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Domain.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231010142817_Migration1")]
-    partial class Migration1
+    [Migration("20231011143217_initialMigration1")]
+    partial class initialMigration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,20 +91,17 @@ namespace Domain.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("Email");
 
                     b.Property<string>("Login")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("Login");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("Password");
 
                     b.Property<Guid>("RoleId")

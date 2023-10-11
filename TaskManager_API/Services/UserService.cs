@@ -32,11 +32,27 @@ namespace TaskManager_API.Services
             return user.Id;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid userId)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == id); //TODO NFexception
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId); //TODO NFexception
 
             _context.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Guid userId, string login, string email, string password, Guid roleId)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId); //TODO NFexception
+
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId); //TODO NFexception
+
+            user.Login = login;
+            user.Email = email;
+            user.Password = CreateSHA256(password);
+            user.RoleId = roleId;
+            user.Role = role;
+
+            _context.Update(user);
             await _context.SaveChangesAsync();
         }
 

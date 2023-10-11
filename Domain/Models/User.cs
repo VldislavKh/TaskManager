@@ -7,21 +7,20 @@ namespace Domain.Models
 {
     public class User
     {
+        [Key]
         [Column ("Id")]
         public Guid Id { get; set; }
 
         [Column("Login")]
-
         public string Login { get; set; }
 
         [Column("Email")]
-
         public string Email { get; set; }
 
         [Column("Password")]
         public string Password { get; set; }
 
-
+        [ForeignKey("Role")]
         [Column("Id Роли")]
         public Guid RoleId { get; set; }
 

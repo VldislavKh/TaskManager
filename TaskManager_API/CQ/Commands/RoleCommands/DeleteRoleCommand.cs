@@ -3,11 +3,11 @@ using TaskManager_API.Interfaces;
 
 namespace TaskManager_API.CQ.Commands.RoleCommands
 {
-    public class DeleteRoleCommand : IRequest<Unit>
+    public class DeleteRoleCommand : IRequest
     {
         public Guid RoleId { get; set; }
 
-        public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
+        public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand>
         {
             private readonly IRoleService _roleService;
 
@@ -16,10 +16,9 @@ namespace TaskManager_API.CQ.Commands.RoleCommands
                 _roleService = roleService;
             }
 
-            public async Task<Unit> Handle(DeleteRoleCommand command, CancellationToken cancellationToken)
+            public async Task Handle(DeleteRoleCommand command, CancellationToken cancellationToken)
             {
                 await _roleService.DeleteAsync(command.RoleId);
-                return Unit.Value;
             }
         }
     }

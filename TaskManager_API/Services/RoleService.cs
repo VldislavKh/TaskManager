@@ -1,5 +1,6 @@
 ﻿using Domain.Infrastructure.DBConnection;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using TaskManager_API.Interfaces;
 
 namespace TaskManager_API.Services
@@ -25,9 +26,19 @@ namespace TaskManager_API.Services
 
         public async Task DeleteAsync(Guid roleId)
         {
-            var role = _context.Roles.SingleOrDefault(r => r.Id == roleId); //TODO NFexception
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId); //TODO NFexception
 
             _context.Remove(role);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Guid roleId, string roleName)
+        {
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId); //TODO NFException
+
+            role.Name = roleName;
+
+            _context.Update(role);
             await _context.SaveChangesAsync();
         }
     }

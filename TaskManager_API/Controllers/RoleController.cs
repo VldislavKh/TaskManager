@@ -15,7 +15,7 @@ namespace TaskManager_API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("roles/create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> AddRole([FromBody] CreateRoleCommand command, CancellationToken cancellationToken)
         {
@@ -23,11 +23,20 @@ namespace TaskManager_API.Controllers
             return Ok(id);
         }
 
-        [HttpDelete("[action]/{roleId}")]
+        [HttpDelete("roles/{roleId}/delete")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> DeleteRole(Guid roleId, CancellationToken cancellationToken)
         {
             await _mediator.Send(new DeleteRoleCommand() { RoleId = roleId }, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPut("roles/{roleId}/update")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> UpdateRole(Guid roleId, UpdateRoleCommand command, CancellationToken cancellationToken)
+        {
+            command.RoleId = roleId;
+            await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
     }

@@ -10,8 +10,8 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - pg-data:/var/lib/postgresql/data
-  
+      - pg-data:/var/lib/postgresql/realdata
+
   testtmdatabase:
     image: postgres
     environment:
@@ -21,7 +21,8 @@ services:
     ports:
       - "5435:5432"
     volumes:
-      - pg-data:/var/lib/postgresql/data
+      - pg-data:/var/lib/postgresql/testdata
 
 volumes:
   pg-data:
+    driver: local

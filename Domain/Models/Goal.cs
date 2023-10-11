@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Domain.Models
 {
     public class Goal
     {
+        [Key]
         [Column("Id")]
         public Guid Id { get; set; }
 
@@ -27,6 +29,7 @@ namespace Domain.Models
         [Column("Важность")]
         public  Priority Priority { get; set; }
 
+        [ForeignKey("User")]
         [Column("Id пользователя")]
         public Guid UserId { get; set; }
 

@@ -15,19 +15,28 @@ namespace TaskManager_API.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [HttpPost("[action]")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost("users/create")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> CreateUser([FromBody] CreateUserCommand command, CancellationToken cancellationToken)
         {
             var id = await _mediator.Send(command, cancellationToken);
             return Ok(id);
         }
 
-        [HttpDelete("[action]/{userId}")]
+        [HttpDelete("users/{userId}/delete")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> DeleteUser(Guid userId, CancellationToken cancellationToken)
         {
             await _mediator.Send(new DeleteUserCommand { UserId = userId }, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPut("users/{userId}/update")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> UpdateUser(Guid userId, [FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
+        {
+            command.UserId = userId;
+            await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
     }
