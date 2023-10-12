@@ -18,7 +18,7 @@ namespace TaskManager_API.Controllers
         }
 
         [HttpPost("roles/create")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> AddRole([FromBody] CreateRoleCommand command, CancellationToken cancellationToken)
         {
             var id = await _mediator.Send(command, cancellationToken);

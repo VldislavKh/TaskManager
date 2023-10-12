@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using Domain.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager_API.CQ.Commands.UserCommands;
+using TaskManager_API.CQ.Queries.UserQueries;
 
 namespace TaskManager_API.Controllers
 {
@@ -39,5 +41,22 @@ namespace TaskManager_API.Controllers
             await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
+
+        [HttpGet("users/{userId}/get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<User>> GetUser(Guid userId, CancellationToken cancellationToken)
+        {
+            var user = await _mediator.Send(new GetUserQuery { UserId = userId }, cancellationToken);
+            return Ok(user);
+        }
+
+        [HttpGet("users/all/get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<User>> GetAllUsers(CancellationToken cancellationToken)
+        {
+            var users = await _mediator.Send(new GetAllUsersQuery(), cancellationToken);
+            return Ok(users);
+        }
+
     }
 }

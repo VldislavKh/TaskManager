@@ -56,6 +56,22 @@ namespace TaskManager_API.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<User> GetAsync(Guid userId)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId); //TODO NFexception
+            user.Role = _context.Roles.SingleOrDefault(r => r.Id == user.RoleId); //TODO NFexception
+            return user;
+        }
+
+        public async Task<List<User>> GetAllAsync()
+        {
+            var users = await _context.Users.ToListAsync();
+            foreach(var user in users)
+            {
+                user.Role = _context.Roles.SingleOrDefault(r => r.Id == user.RoleId); //TODO NFexception
+            }
+            return users;
+        }
 
 
         private string CreateSHA256(string input)
