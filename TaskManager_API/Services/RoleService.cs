@@ -41,5 +41,17 @@ namespace TaskManager_API.Services
             _context.Update(role);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Role> GetAsync(Guid roleId)
+        {
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId); //TODO NFException
+
+            return role;
+        }
+
+        public async Task<List<Role>> GetAllAsync()
+        {
+            return await _context.Roles.ToListAsync(); 
+        }
     }
 }

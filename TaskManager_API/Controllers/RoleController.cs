@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using Domain.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager_API.CQ.Commands.RoleCommands;
+using TaskManager_API.CQ.Queries.RoleQueries;
 
 namespace TaskManager_API.Controllers
 {
@@ -39,5 +41,22 @@ namespace TaskManager_API.Controllers
             await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
+
+        [HttpGet("roles/{roleId}/get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<Role>> GetRole(Guid roleId, CancellationToken cancellationToken)
+        {
+            var role = await _mediator.Send(new GetRoleQuery { RoleId = roleId }, cancellationToken);
+            return Ok(role);
+        }
+
+        [HttpGet("roles/all/get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<Role>>> GetAllRoles(CancellationToken cancellationToken)
+        {
+            var roles = await _mediator.Send(new GetAllRolesQuery(),cancellationToken); 
+            return Ok(roles);
+        }
+        
     }
 }
