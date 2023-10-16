@@ -2,7 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Infrastructure.DBConnection;
 using TaskManager_API.Interfaces;
 using TaskManager_API.Services;
-
+using System.Reflection;
+using Swashbuckle.Swagger;
+// TODO напоминания
 namespace TaskManager_API
 {
     public class Program
@@ -30,6 +32,7 @@ namespace TaskManager_API
             // Registring custom services
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IGoalService, GoalService>();
 
             var app = builder.Build();
 
