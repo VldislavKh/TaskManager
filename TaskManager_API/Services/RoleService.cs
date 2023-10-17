@@ -1,6 +1,7 @@
 ﻿using Domain.Infrastructure.DBConnection;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using TaskManager_API.Exceptions.CustomExceptions;
 using TaskManager_API.Interfaces;
 
 namespace TaskManager_API.Services
@@ -26,7 +27,8 @@ namespace TaskManager_API.Services
 
         public async Task DeleteAsync(Guid roleId)
         {
-            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId); //TODO NFexception
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId) 
+                ?? throw new NotFoundException(nameof(_context), roleId);
 
             _context.Remove(role);
             await _context.SaveChangesAsync();
@@ -34,7 +36,8 @@ namespace TaskManager_API.Services
 
         public async Task UpdateAsync(Guid roleId, string roleName)
         {
-            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId); //TODO NFException
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
+                ?? throw new NotFoundException(nameof(_context), roleId); 
 
             role.Name = roleName;
 
@@ -44,7 +47,8 @@ namespace TaskManager_API.Services
 
         public async Task<Role> GetAsync(Guid roleId)
         {
-            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId); //TODO NFException
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
+                ?? throw new NotFoundException(nameof(_context), roleId); 
 
             return role;
         }
