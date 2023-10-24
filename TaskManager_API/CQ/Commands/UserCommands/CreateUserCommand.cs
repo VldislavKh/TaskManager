@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Domain.Models;
+using MediatR;
 using TaskManager_API.Interfaces;
 
 namespace TaskManager_API.CQ.Commands.UserCommands
@@ -21,7 +22,15 @@ namespace TaskManager_API.CQ.Commands.UserCommands
 
             public async Task<Guid> Handle(CreateUserCommand command, CancellationToken cancellationToken)
             {
-                return await _userService.CreateAsync(command.Login, command.Email, command.Password, command.RoleId);
+                var user = new User { 
+                    Login = command.Login,
+                    Email = command.Email,
+                    Password = command.Password,
+                    RoleId = command.RoleId 
+                };
+
+                //return await _userService.CreateAsync(command.Login, command.Email, command.Password, command.RoleId);
+                return await _userService.CreateAsync(user);
             }
         }
     }

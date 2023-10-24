@@ -17,21 +17,38 @@ namespace TaskManager_API.Services
             _context = context;
         }
 
-        public async Task<Guid> CreateAsync(string login, string email, string password, Guid roleId)
+        //public async Task<Guid> CreateAsync(string login, string email, string password, Guid roleId)
+        //{
+        //    var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
+        //        ?? throw new NotFoundException(nameof(_context), roleId);
+
+        //    var user = new User();
+        //    user.Login = login;
+        //    user.Email = email;
+        //    user.Password = CreateSHA256(password);
+        //    user.RoleId = roleId;
+        //    user.Role = role;
+
+        //    await _context.AddAsync(user);
+        //    await _context.SaveChangesAsync();
+        //    return user.Id;
+        //}
+
+        public async Task<Guid> CreateAsync(User user)
         {
-            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
-                ?? throw new NotFoundException(nameof(_context), roleId);
+            var role = await _context.Roles.SingleOrDefaultAsync(role => role.Id == user.RoleId)
+                ?? throw new NotFoundException(nameof(_context), user.RoleId);
 
-            var user = new User();
-            user.Login = login;
-            user.Email = email;
-            user.Password = CreateSHA256(password);
-            user.RoleId = roleId;
-            user.Role = role;
+            var creatingUser = new User();
+            creatingUser.Login = user.Login;
+            creatingUser.Email = user.Email;
+            creatingUser.Password = CreateSHA256(user.Password);
+            creatingUser.RoleId = role.Id;
+            creatingUser.Role = role;
 
-            await _context.AddAsync(user);
+            await _context.AddAsync(creatingUser);
             await _context.SaveChangesAsync();
-            return user.Id;
+            return creatingUser.Id;
         }
 
         public async Task DeleteAsync(Guid userId)
@@ -43,21 +60,39 @@ namespace TaskManager_API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Guid userId, string login, string email, string password, Guid roleId)
+        //public async Task UpdateAsync(Guid userId, string login, string email, string password, Guid roleId)
+        //{
+        //    var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
+        //        ?? throw new NotFoundException(nameof(_context), userId);
+
+        //    var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
+        //        ?? throw new NotFoundException(nameof(_context), roleId);
+
+        //    user.Login = login;
+        //    user.Email = email;
+        //    user.Password = CreateSHA256(password);
+        //    user.RoleId = roleId;
+        //    user.Role = role;
+
+        //    _context.Update(user);
+        //    await _context.SaveChangesAsync();
+        //}
+
+        public async Task UpdateAsync(Guid updatingUserId, User inputUser)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
-                ?? throw new NotFoundException(nameof(_context), userId);
+            var updatingUser = await _context.Users.SingleOrDefaultAsync(user => user.Id == updatingUserId)
+                ?? throw new NotFoundException(nameof(_context), updatingUserId);
 
-            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
-                ?? throw new NotFoundException(nameof(_context), roleId);
+            var role = await _context.Roles.SingleOrDefaultAsync(role => role.Id == inputUser.RoleId)
+                ?? throw new NotFoundException(nameof(_context), inputUser.RoleId);
 
-            user.Login = login;
-            user.Email = email;
-            user.Password = CreateSHA256(password);
-            user.RoleId = roleId;
-            user.Role = role;
+            updatingUser.Login = inputUser.Login;
+            updatingUser.Email = inputUser.Email;
+            updatingUser.Password = CreateSHA256(inputUser.Password);
+            updatingUser.RoleId = role.Id;
+            updatingUser.Role = role;
 
-            _context.Update(user);
+            _context.Update(updatingUser);
             await _context.SaveChangesAsync();
         }
 
