@@ -16,49 +16,91 @@ namespace TaskManager_API.Services
             _context = context;
         }
 
-        public async Task<Guid> CreateAsync(string goalName, string description, DateTime creationDay, DateTime deadline, Priority priority, Guid userId)
+        //public async Task<Guid> CreateAsync(string goalName, string description, DateTime creationDay, DateTime deadline, Priority priority, Guid userId)
+        //{
+        //    var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
+        //        ?? throw new NotFoundException(nameof(_context), userId);
+
+        //    var goal = new Goal();
+        //    goal.Name = goalName;
+        //    goal.Description = description;
+        //    goal.CreationDay = creationDay;
+        //    goal.Deadline = deadline;
+        //    goal.Priority = priority;
+        //    goal.UserId = userId;
+        //    goal.User = user;
+
+        //    await _context.AddAsync(goal);
+        //    await _context.SaveChangesAsync();
+
+        //    return goal.Id;
+        //}
+
+        public async Task<Guid> CreateAsync(Goal goal)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
-                ?? throw new NotFoundException(nameof(_context), userId);
+            var user = await _context.Users.SingleOrDefaultAsync(user => user.Id == goal.UserId)
+                ?? throw new NotFoundException(nameof(_context), goal.UserId);
 
-            var goal = new Goal();
-            goal.Name = goalName;
-            goal.Description = description;
-            goal.CreationDay = creationDay;
-            goal.Deadline = deadline;
-            goal.Priority = priority;
-            goal.UserId = userId;
-            goal.User = user;
 
-            await _context.AddAsync(goal);
+            var creatingGoal = new Goal();
+
+            creatingGoal.Name = goal.Name;
+            creatingGoal.Description = goal.Description;
+            creatingGoal.CreationDay = goal.CreationDay;
+            creatingGoal.Deadline = goal.Deadline;
+            creatingGoal.Priority = goal.Priority;
+            creatingGoal.UserId = user.Id;
+            creatingGoal.User = user;
+
+            await _context.AddAsync(creatingGoal);
             await _context.SaveChangesAsync();
 
-            return goal.Id;
+            return creatingGoal.Id;
         }
 
         public async Task DeleteAsync(Guid goalId)
         {
-            var goal = await _context.Goals.SingleOrDefaultAsync(g => g.Id == goalId)
+            var goal = await _context.Goals.SingleOrDefaultAsync(goal => goal.Id == goalId)
                 ?? throw new NotFoundException(nameof(_context), goalId); 
 
             _context.Remove(goal);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Guid goalId, string goalName, string description, DateTime creationDay, DateTime deadline, Priority priority, Guid userId)
+        //public async Task UpdateAsync(Guid goalId, string goalName, string description, DateTime creationDay, DateTime deadline, Priority priority, Guid userId)
+        //{
+        //    var goal = await _context.Goals.SingleOrDefaultAsync(goal => goal.Id == goalId)
+        //        ?? throw new NotFoundException(nameof(_context), goalId);
+
+        //    var user = await _context.Users.SingleOrDefaultAsync(user => user.Id == userId)
+        //        ?? throw new NotFoundException(nameof(_context), userId);
+
+        //    goal.Name = goalName;
+        //    goal.Description = description;
+        //    goal.CreationDay = creationDay;
+        //    goal.Deadline = deadline;
+        //    goal.Priority = priority;
+        //    goal.UserId = userId;
+        //    goal.User = user;
+
+        //    _context.Update(goal);
+        //    await _context.SaveChangesAsync();
+        //}
+
+        public async Task UpdateAsync(Guid updatingGoalId, Goal inputGoal)
         {
-            var goal = await _context.Goals.SingleOrDefaultAsync(g => g.Id == goalId)
-                ?? throw new NotFoundException(nameof(_context), goalId);
+            var goal = await _context.Goals.SingleOrDefaultAsync(goal => goal.Id == updatingGoalId)
+                ?? throw new NotFoundException(nameof(_context), updatingGoalId);
 
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
-                ?? throw new NotFoundException(nameof(_context), userId);
+            var user = await _context.Users.SingleOrDefaultAsync(user => user.Id == inputGoal.UserId)
+                ?? throw new NotFoundException(nameof(_context), inputGoal.UserId);
 
-            goal.Name = goalName;
-            goal.Description = description;
-            goal.CreationDay = creationDay;
-            goal.Deadline = deadline;
-            goal.Priority = priority;
-            goal.UserId = userId;
+            goal.Name = inputGoal.Name;
+            goal.Description = inputGoal.Description;
+            goal.CreationDay = inputGoal.CreationDay;
+            goal.Deadline = inputGoal.Deadline;
+            goal.Priority = inputGoal.Priority;
+            goal.UserId = user.Id;
             goal.User = user;
 
             _context.Update(goal);
@@ -98,5 +140,23 @@ namespace TaskManager_API.Services
 
             return goals;
         }
+
+        //private async Task<User> FindUser(Guid userId)
+        //{
+        //    return await _context.Users.SingleOrDefaultAsync(user => user.Id == userId)
+        //        ?? throw new NotFoundException(nameof(_context), userId);
+        //}
+
+        //private async Task<Role> FindRole(Guid roleId)
+        //{
+        //    return await _context.Roles.SingleOrDefaultAsync(role => role.Id == roleId)
+        //        ?? throw new NotFoundException(nameof(_context), roleId);
+        //}
+
+        //private async Task<Goal> FindGoal(Guid goalId)
+        //{
+        //    return await _context.Goals.SingleOrDefaultAsync(goal => g.Id == goalId) 
+        //        ?? throw new NotFoundException(nameof(_context), goalId);
+        //}
     }
 }

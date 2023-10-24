@@ -41,7 +41,7 @@ namespace TaskManager_API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> UpdateGoal(Guid goalId, [FromBody] UpdateGoalCommand command, CancellationToken cancellationToken)
         {
-            command.GoalId = goalId;
+            command.UpdatingGoalId = goalId;
             await _mediator.Send(command, cancellationToken);
             return NoContent();
         }

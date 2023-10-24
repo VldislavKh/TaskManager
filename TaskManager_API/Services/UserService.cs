@@ -64,9 +64,11 @@ namespace TaskManager_API.Services
         public async Task<User> GetAsync(Guid userId)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
-                ?? throw new NotFoundException(nameof(_context), userId); 
+                ?? throw new NotFoundException(nameof(_context), userId);
+            
             user.Role = _context.Roles.SingleOrDefault(r => r.Id == user.RoleId)
                 ?? throw new NotFoundException(nameof(_context), user.RoleId);
+
             return user;
         }
 

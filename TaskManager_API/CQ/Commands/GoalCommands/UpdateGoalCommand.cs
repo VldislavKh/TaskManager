@@ -8,7 +8,7 @@ namespace TaskManager_API.CQ.Commands.GoalCommands
     public class UpdateGoalCommand : IRequest
     {
         [JsonIgnore]
-        public Guid GoalId { get; set; }
+        public Guid UpdatingGoalId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CreationDay { get; set; }
@@ -27,8 +27,21 @@ namespace TaskManager_API.CQ.Commands.GoalCommands
 
             public async Task Handle(UpdateGoalCommand command, CancellationToken cancellationToken)
             {
-                await _goalService.UpdateAsync(command.GoalId, command.Name, command.Description, command.CreationDay,
-                    command.Deadline, command.Priority, command.UserId);
+                var inputGoal = new Goal
+                {
+                    Name = command.Name,
+                    Description = command.Description,
+                    CreationDay = command.CreationDay,
+                    Deadline = command.Deadline,
+                    Priority = command.Priority,
+                    UserId = command.UserId,
+                };
+
+
+                //await _goalService.UpdateAsync(command.GoalId, command.Name, command.Description, command.CreationDay,
+                //    command.Deadline, command.Priority, command.UserId);
+
+                await _goalService.UpdateAsync(command.UpdatingGoalId, inputGoal);
             }
         }
     }

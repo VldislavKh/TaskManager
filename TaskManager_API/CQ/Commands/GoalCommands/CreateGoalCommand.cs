@@ -25,8 +25,20 @@ namespace TaskManager_API.CQ.Commands.GoalCommands
 
             public async Task<Guid> Handle(CreateGoalCommand command, CancellationToken cancellationToken)
             {
-                return await _goalService.CreateAsync(command.Name, command.Description, command.CreationDay, 
-                    command.Deadline, command.Priority, command.UserId);
+                var goal = new Goal
+                {
+                    Name = command.Name,
+                    Description = command.Description,
+                    CreationDay = command.CreationDay,
+                    Deadline = command.Deadline,
+                    Priority = command.Priority,
+                    UserId = command.UserId,
+                };
+
+                return await _goalService.CreateAsync(goal);
+
+                //return await _goalService.CreateAsync(command.Name, command.Description, command.CreationDay, 
+                //    command.Deadline, command.Priority, command.UserId);
             }
         }
     }
