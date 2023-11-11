@@ -1,6 +1,8 @@
 ﻿using Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using TaskManager_API.CQ.Commands.RoleCommands;
 using TaskManager_API.CQ.Queries.RoleQueries;
 
@@ -17,6 +19,7 @@ namespace TaskManager_API.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Roles = "superadmin")]
         [HttpPost("roles/create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> CreateRole([FromBody] CreateRoleCommand command, CancellationToken cancellationToken)
@@ -25,6 +28,7 @@ namespace TaskManager_API.Controllers
             return Ok(id);
         }
 
+        [Authorize(Roles = "superadmin")]
         [HttpDelete("roles/{roleId}/delete")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> DeleteRole(Guid roleId, CancellationToken cancellationToken)

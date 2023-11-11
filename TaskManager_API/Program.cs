@@ -4,6 +4,8 @@ using TaskManager_API.Interfaces;
 using TaskManager_API.Services;
 using System.Reflection;
 using Swashbuckle.Swagger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Domain.Infrastructure.Authentication;
 // TODO напоминания
 namespace TaskManager_API
 {
@@ -29,6 +31,28 @@ namespace TaskManager_API
             // Adding MediatR
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
+            // Add JWT
+            var authOptions = builder.Configuration.GetSection("Auth").Get<AuthOptions>();
+            builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Auth"));
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = authOptions.Issuer,
+
+                    ValidateAudience = true,
+                    ValidAudience = authOptions.Audience,
+
+                    ValidateLifetime = true,
+
+                    IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
+                    ValidateIssuerSigningKey = true,
+                };
+            });
+
             // Registring custom services
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
@@ -46,7 +70,6 @@ namespace TaskManager_API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
