@@ -17,7 +17,7 @@ namespace TaskManager_API.CQ.Queries.RoleQueries
 
             public async Task<List<Role>> Handle(GetAllRolesQuery query, CancellationToken cancellationToken)
             {
-                return await _roleService.GetAllAsync();
+                return await _roleService.GetAllRolesAsync();
             }
         }
     }

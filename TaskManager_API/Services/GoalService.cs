@@ -16,27 +16,7 @@ namespace TaskManager_API.Services
             _context = context;
         }
 
-        //public async Task<Guid> CreateAsync(string goalName, string description, DateTime creationDay, DateTime deadline, Priority priority, Guid userId)
-        //{
-        //    var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
-        //        ?? throw new NotFoundException(nameof(_context), userId);
-
-        //    var goal = new Goal();
-        //    goal.Name = goalName;
-        //    goal.Description = description;
-        //    goal.CreationDay = creationDay;
-        //    goal.Deadline = deadline;
-        //    goal.Priority = priority;
-        //    goal.UserId = userId;
-        //    goal.User = user;
-
-        //    await _context.AddAsync(goal);
-        //    await _context.SaveChangesAsync();
-
-        //    return goal.Id;
-        //}
-
-        public async Task<Guid> CreateAsync(Goal goal)
+        public async Task<Guid> CreateGoalAsync(Goal goal)
         {
             var user = await _context.Users.SingleOrDefaultAsync(user => user.Id == goal.UserId)
                 ?? throw new NotFoundException(nameof(_context), goal.UserId);
@@ -58,7 +38,7 @@ namespace TaskManager_API.Services
             return creatingGoal.Id;
         }
 
-        public async Task DeleteAsync(Guid goalId)
+        public async Task DeleteGoalAsync(Guid goalId)
         {
             var goal = await _context.Goals.SingleOrDefaultAsync(goal => goal.Id == goalId)
                 ?? throw new NotFoundException(nameof(_context), goalId); 
@@ -67,27 +47,7 @@ namespace TaskManager_API.Services
             await _context.SaveChangesAsync();
         }
 
-        //public async Task UpdateAsync(Guid goalId, string goalName, string description, DateTime creationDay, DateTime deadline, Priority priority, Guid userId)
-        //{
-        //    var goal = await _context.Goals.SingleOrDefaultAsync(goal => goal.Id == goalId)
-        //        ?? throw new NotFoundException(nameof(_context), goalId);
-
-        //    var user = await _context.Users.SingleOrDefaultAsync(user => user.Id == userId)
-        //        ?? throw new NotFoundException(nameof(_context), userId);
-
-        //    goal.Name = goalName;
-        //    goal.Description = description;
-        //    goal.CreationDay = creationDay;
-        //    goal.Deadline = deadline;
-        //    goal.Priority = priority;
-        //    goal.UserId = userId;
-        //    goal.User = user;
-
-        //    _context.Update(goal);
-        //    await _context.SaveChangesAsync();
-        //}
-
-        public async Task UpdateAsync(Guid updatingGoalId, Goal inputGoal)
+        public async Task UpdateGoalAsync(Guid updatingGoalId, Goal inputGoal)
         {
             var updatingGoal = await _context.Goals.SingleOrDefaultAsync(goal => goal.Id == updatingGoalId)
                 ?? throw new NotFoundException(nameof(_context), updatingGoalId);
@@ -107,7 +67,7 @@ namespace TaskManager_API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Goal> GetAsync(Guid goalId)
+        public async Task<Goal> GetGoalAsync(Guid goalId)
         {
             var goal = await _context.Goals.SingleOrDefaultAsync(g => g.Id == goalId)
                 ?? throw new NotFoundException(nameof(_context), goalId); 
@@ -123,7 +83,7 @@ namespace TaskManager_API.Services
             return goal;
         }
 
-        public async Task<List<Goal>> GetAllAsync()
+        public async Task<List<Goal>> GetAllGoalsAsync()
         {
             var goals = await _context.Goals.ToListAsync();
             

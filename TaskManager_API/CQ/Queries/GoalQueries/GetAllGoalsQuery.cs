@@ -17,7 +17,7 @@ namespace TaskManager_API.CQ.Queries.GoalQueries
 
             public async Task<List<Goal>> Handle(GetAllGoalsQuery command, CancellationToken cancellationToken)
             {
-                return await _goalService.GetAllAsync();
+                return await _goalService.GetAllGoalsAsync();
             }
         }
     }

@@ -16,7 +16,7 @@ namespace TaskManager_API.CQ.Queries.UserQueries
             }
             public async Task<List<User>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken)
             {
-                return await _userService.GetAllAsync();
+                return await _userService.GetAllUsersAsync();
             }
         }
     }

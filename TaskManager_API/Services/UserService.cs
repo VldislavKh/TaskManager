@@ -17,24 +17,7 @@ namespace TaskManager_API.Services
             _context = context;
         }
 
-        //public async Task<Guid> CreateAsync(string login, string email, string password, Guid roleId)
-        //{
-        //    var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
-        //        ?? throw new NotFoundException(nameof(_context), roleId);
-
-        //    var user = new User();
-        //    user.Login = login;
-        //    user.Email = email;
-        //    user.Password = CreateSHA256(password);
-        //    user.RoleId = roleId;
-        //    user.Role = role;
-
-        //    await _context.AddAsync(user);
-        //    await _context.SaveChangesAsync();
-        //    return user.Id;
-        //}
-
-        public async Task<Guid> CreateAsync(User user)
+        public async Task<Guid> CreateUserAsync(User user)
         {
             var role = await _context.Roles.SingleOrDefaultAsync(role => role.Id == user.RoleId)
                 ?? throw new NotFoundException(nameof(_context), user.RoleId);
@@ -51,7 +34,7 @@ namespace TaskManager_API.Services
             return creatingUser.Id;
         }
 
-        public async Task DeleteAsync(Guid userId)
+        public async Task DeleteUserAsync(Guid userId)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
                 ?? throw new NotFoundException(nameof(_context), userId);
@@ -60,25 +43,7 @@ namespace TaskManager_API.Services
             await _context.SaveChangesAsync();
         }
 
-        //public async Task UpdateAsync(Guid userId, string login, string email, string password, Guid roleId)
-        //{
-        //    var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
-        //        ?? throw new NotFoundException(nameof(_context), userId);
-
-        //    var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
-        //        ?? throw new NotFoundException(nameof(_context), roleId);
-
-        //    user.Login = login;
-        //    user.Email = email;
-        //    user.Password = CreateSHA256(password);
-        //    user.RoleId = roleId;
-        //    user.Role = role;
-
-        //    _context.Update(user);
-        //    await _context.SaveChangesAsync();
-        //}
-
-        public async Task UpdateAsync(Guid updatingUserId, User inputUser)
+        public async Task UpdateUserAsync(Guid updatingUserId, User inputUser)
         {
             var updatingUser = await _context.Users.SingleOrDefaultAsync(user => user.Id == updatingUserId)
                 ?? throw new NotFoundException(nameof(_context), updatingUserId);
@@ -96,7 +61,7 @@ namespace TaskManager_API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User> GetAsync(Guid userId)
+        public async Task<User> GetUserAsync(Guid userId)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
                 ?? throw new NotFoundException(nameof(_context), userId);
@@ -107,7 +72,14 @@ namespace TaskManager_API.Services
             return user;
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<bool> IsLoginUniqueAsync(string Login)
+        {
+            var res = await _context.Users.SingleOrDefaultAsync(u => u.Login == Login);
+            if (res == null) return true; 
+            return false;
+        }
+
+        public async Task<List<User>> GetAllUsersAsync()
         {
             var users = await _context.Users.ToListAsync();
             foreach(var user in users)

@@ -41,7 +41,7 @@ namespace TaskManager_API.CQ.Commands.GoalCommands
                 //await _goalService.UpdateAsync(command.GoalId, command.Name, command.Description, command.CreationDay,
                 //    command.Deadline, command.Priority, command.UserId);
 
-                await _goalService.UpdateAsync(command.UpdatingGoalId, inputGoal);
+                await _goalService.UpdateGoalAsync(command.UpdatingGoalId, inputGoal);
             }
         }
     }

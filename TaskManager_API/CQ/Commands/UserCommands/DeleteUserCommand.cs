@@ -19,7 +19,7 @@ namespace TaskManager_API.CQ.Commands.UserCommands
 
             public async Task Handle(DeleteUserCommand command, CancellationToken cancellationToken)
             {
-                await _userService.DeleteAsync(command.UserId);
+                await _userService.DeleteUserAsync(command.UserId);
             }
         }
     }

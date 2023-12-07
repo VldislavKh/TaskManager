@@ -18,7 +18,7 @@ namespace TaskManager_API.CQ.Commands.RoleCommands
 
             public async Task<Guid> Handle(CreateRoleCommand command, CancellationToken cancellationToken)
             {
-                return await _roleService.CreateAsync(command.Name);
+                return await _roleService.CreateRoleAsync(command.Name);
             }
         }
     }

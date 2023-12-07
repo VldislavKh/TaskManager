@@ -36,7 +36,7 @@ namespace TaskManager_API.CQ.Commands.UserCommands
 
                 //await _userService.UpdateAsync(command.UserId, command.Login, command.Email, command.Password, command.RoleId);
 
-                await _userService.UpdateAsync(command.UserId, user);
+                await _userService.UpdateUserAsync(command.UserId, user);
             }
         }
     }

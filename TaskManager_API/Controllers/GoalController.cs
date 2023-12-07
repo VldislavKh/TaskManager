@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager_API.CQ.Commands.GoalCommands;
 using TaskManager_API.CQ.Queries.GoalQueries;
@@ -21,7 +22,7 @@ namespace TaskManager_API.Controllers
         /// <summary>
         /// Create a new goal.
         /// </summary>
-        [HttpPost("goals/create")]
+        [HttpPost()]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> CreateGoal([FromBody] CreateGoalCommand command, CancellationToken cancellationToken)
         {
@@ -29,7 +30,7 @@ namespace TaskManager_API.Controllers
             return Ok(id);
         }
 
-        [HttpDelete("goals/{goalId}/delete")]
+        [HttpDelete("{goalId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> DeleteGoal(Guid goalId, CancellationToken cancellationToken)
         {
@@ -37,7 +38,7 @@ namespace TaskManager_API.Controllers
             return NoContent();
         }
 
-        [HttpPut("goals/{goalId}/update")]
+        [HttpPut("{goalId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> UpdateGoal(Guid goalId, [FromBody] UpdateGoalCommand command, CancellationToken cancellationToken)
         {
@@ -46,7 +47,7 @@ namespace TaskManager_API.Controllers
             return NoContent();
         }
 
-        [HttpGet("goals/{goalId}/get")]
+        [HttpGet("{goalId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Goal>> GetGoal(Guid goalId, CancellationToken cancellationToken)
         {
@@ -55,7 +56,7 @@ namespace TaskManager_API.Controllers
             return Ok(goal);
         }
 
-        [HttpGet("goals/all/get")]
+        [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Goal>>> GetAllGoals(CancellationToken cancellationToken)
         {

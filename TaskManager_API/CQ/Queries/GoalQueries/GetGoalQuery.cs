@@ -19,7 +19,7 @@ namespace TaskManager_API.CQ.Queries.GoalQueries
 
             public async Task<Goal> Handle(GetGoalQuery query, CancellationToken cancellationToken)
             {
-                return await _goalService.GetAsync(query.GoalId);
+                return await _goalService.GetGoalAsync(query.GoalId);
             }
         }
     }

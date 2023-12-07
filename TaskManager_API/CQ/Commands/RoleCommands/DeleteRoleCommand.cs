@@ -18,7 +18,7 @@ namespace TaskManager_API.CQ.Commands.RoleCommands
 
             public async Task Handle(DeleteRoleCommand command, CancellationToken cancellationToken)
             {
-                await _roleService.DeleteAsync(command.RoleId);
+                await _roleService.DeleteRoleAsync(command.RoleId);
             }
         }
     }

@@ -15,7 +15,7 @@ namespace TaskManager_API.Services
             _context = context;
         }
 
-        public async Task<Guid> CreateAsync(string roleName)
+        public async Task<Guid> CreateRoleAsync(string roleName)
         {
             var role = new Role();
             role.Name = roleName;
@@ -25,7 +25,7 @@ namespace TaskManager_API.Services
             return role.Id;
         }
 
-        public async Task DeleteAsync(Guid roleId)
+        public async Task DeleteRoleAsync(Guid roleId)
         {
             var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId) 
                 ?? throw new NotFoundException(nameof(_context), roleId);
@@ -34,7 +34,7 @@ namespace TaskManager_API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Guid roleId, string roleName)
+        public async Task UpdateRoleAsync(Guid roleId, string roleName)
         {
             var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
                 ?? throw new NotFoundException(nameof(_context), roleId); 
@@ -45,7 +45,7 @@ namespace TaskManager_API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Role> GetAsync(Guid roleId)
+        public async Task<Role> GetRoleAsync(Guid roleId)
         {
             var role = await _context.Roles.SingleOrDefaultAsync(r => r.Id == roleId)
                 ?? throw new NotFoundException(nameof(_context), roleId); 
@@ -53,7 +53,7 @@ namespace TaskManager_API.Services
             return role;
         }
 
-        public async Task<List<Role>> GetAllAsync()
+        public async Task<List<Role>> GetAllRolesAsync()
         {
             return await _context.Roles.ToListAsync(); 
         }

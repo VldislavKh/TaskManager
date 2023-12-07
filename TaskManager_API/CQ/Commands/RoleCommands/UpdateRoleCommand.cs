@@ -22,7 +22,7 @@ namespace TaskManager_API.CQ.Commands.RoleCommands
 
             public async Task Handle(UpdateRoleCommand command, CancellationToken cancellationToken)
             {
-                await _roleService.UpdateAsync(command.RoleId, command.RoleName);
+                await _roleService.UpdateRoleAsync(command.RoleId, command.RoleName);
             }
         }
     }

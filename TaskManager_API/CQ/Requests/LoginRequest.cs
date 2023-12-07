@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using TaskManager_API.Exceptions.CustomExceptions;
+using TaskManager_API.Interfaces;
 
 namespace TaskManager_API.CQ.Requests
 {

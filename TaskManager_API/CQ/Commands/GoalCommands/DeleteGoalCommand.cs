@@ -18,7 +18,7 @@ namespace TaskManager_API.CQ.Commands.GoalCommands
 
             public async Task Handle(DeleteGoalCommand command, CancellationToken cancellationToken)
             {
-                await _goalService.DeleteAsync(command.GoalId);
+                await _goalService.DeleteGoalAsync(command.GoalId);
             }
         }
     }

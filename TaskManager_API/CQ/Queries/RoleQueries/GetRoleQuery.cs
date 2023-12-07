@@ -19,7 +19,7 @@ namespace TaskManager_API.CQ.Queries.RoleQueries
 
             public async Task<Role> Handle(GetRoleQuery query, CancellationToken cancellationToken)
             {
-                return await _roleService.GetAsync(query.RoleId);
+                return await _roleService.GetRoleAsync(query.RoleId);
             }
         }
     }

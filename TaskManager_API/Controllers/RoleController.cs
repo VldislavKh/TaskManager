@@ -19,8 +19,8 @@ namespace TaskManager_API.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Roles = "superadmin")]
-        [HttpPost("roles/create")]
+        [Authorize(Roles = "admin")]
+        [HttpPost()]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> CreateRole([FromBody] CreateRoleCommand command, CancellationToken cancellationToken)
         {
@@ -28,8 +28,8 @@ namespace TaskManager_API.Controllers
             return Ok(id);
         }
 
-        [Authorize(Roles = "superadmin")]
-        [HttpDelete("roles/{roleId}/delete")]
+        [Authorize(Roles = "admin")]
+        [HttpDelete("{roleId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> DeleteRole(Guid roleId, CancellationToken cancellationToken)
         {
@@ -37,7 +37,7 @@ namespace TaskManager_API.Controllers
             return NoContent();
         }
 
-        [HttpPut("roles/{roleId}/update")]
+        [HttpPut("{roleId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> UpdateRole(Guid roleId, UpdateRoleCommand command, CancellationToken cancellationToken)
         {
@@ -46,7 +46,7 @@ namespace TaskManager_API.Controllers
             return NoContent();
         }
 
-        [HttpGet("roles/{roleId}/get")]
+        [HttpGet("{roleId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Role>> GetRole(Guid roleId, CancellationToken cancellationToken)
         {
@@ -54,13 +54,12 @@ namespace TaskManager_API.Controllers
             return Ok(role);
         }
 
-        [HttpGet("roles/all/get")]
+        [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Role>>> GetAllRoles(CancellationToken cancellationToken)
         {
             var roles = await _mediator.Send(new GetAllRolesQuery(),cancellationToken); 
             return Ok(roles);
-        }
-        
+        } 
     }
 }

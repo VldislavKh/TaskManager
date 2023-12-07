@@ -19,7 +19,7 @@ namespace TaskManager_API.CQ.Queries.UserQueries
 
             public async Task<User> Handle(GetUserQuery query, CancellationToken cancellationToken)
             {
-                return await _userService.GetAsync(query.UserId);
+                return await _userService.GetUserAsync(query.UserId);
             }
         }
     }
