@@ -31,7 +31,7 @@ namespace TaskClient.RestClients
         Task<Guid> CreateGoalAsync(Goal goal);
         Task DeleteGoalAsync(Guid goalId);
         Task UpdateGoalAsync(Guid updatingGoalId, Goal inputGoal);
-        Task<Goal> GetGoalAsync(Guid goalId);
+        Task<Goal> GetGoalAsync(Guid goalId);//[eq
         Task<List<Goal>> GetAllGoalsAsync();
 
         [Get("/auth/login/")]
